@@ -53,7 +53,7 @@ from cflib.crazyflie.swarm import Swarm
 
 # Change uris and sequences according to your setup
 URI1 = 'radio://0/80/2M/E7E7E7E7E7'
-# URI2 = 'radio://0/100/2M'
+URI2 = 'radio://0/100/2M/E7E7E7E7E7'
 # URI3 = 'radio://0/70/2M/E7E7E7E703'
 # URI4 = 'radio://0/70/2M/E7E7E7E704'
 # URI5 = 'radio://0/70/2M/E7E7E7E705'
@@ -65,13 +65,13 @@ URI1 = 'radio://0/80/2M/E7E7E7E7E7'
 
 
 z0 = 0.4
-z = 1.0
+z = 0.8
 
-x0 = 0.7
+x0 = 0
 x1 = 0
 x2 = -0.7
 
-y0 = -1.0
+y0 = 0
 y1 = -0.4
 y2 = 0.4
 y3 = 1.0
@@ -79,14 +79,14 @@ y3 = 1.0
 #    x   y   z  time
 sequence1 = [
     (x0, y0, z0, 3.0),
-    (x0, y0, z, 30.0),
-    (x0, y0, z0, 3.0),
+    # (x0, y0, z, 30.0),
+    # (x0, y0, z0, 3.0),
 ]
 
 sequence2 = [
     (x0, y1, z0, 3.0),
-    (x0, y1, z, 30.0),
-    (x0, y1, z0, 3.0),
+    # (x0, y1, z, 30.0),
+    # (x0, y1, z0, 3.0),
 ]
 
 sequence3 = [
@@ -139,7 +139,7 @@ sequence10 = [
 
 seq_args = {
     URI1: [sequence1],
-    # URI2: [sequence2],
+    URI2: [sequence2],
     # URI3: [sequence3],
     # URI4: [sequence4],
     # URI5: [sequence5],
@@ -153,7 +153,7 @@ seq_args = {
 # List of URIs, comment the one you do not want to fly
 uris = {
     URI1,
-    # URI2,
+    URI2,
     # URI3,
     # URI4,
     # URI5,

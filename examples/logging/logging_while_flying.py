@@ -30,6 +30,7 @@ This example is intended to work with the Loco Positioning System in TWR TOA
 mode. It aims at documenting how to set the Crazyflie in position control mode
 and how to send setpoints.
 """
+import logging
 import time
 
 import cflib.crtp
@@ -40,13 +41,15 @@ from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.utils import uri_helper
 
 # URI to the Crazyflie to connect to
-uri = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E7E7')
+uri = uri_helper.uri_from_env(default='radio://0/100/2M/E7E7E7E7E7')
+# logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(filename="test_range_data.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
 
 # Change the sequence according to your setup
 #             x    y    z  YAW
 sequence = [
     (0.0, 0.0, 0.4, 0),
-    (0.0, 0.0, 0.7, 0),
+    (0.0, 0.0, 0.6, 0),
     # (0.5, -0.5, 1.2, 0),
     # (0.5, 0.5, 1.2, 0),
     # (-0.5, 0.5, 1.2, 0),
@@ -55,6 +58,19 @@ sequence = [
     (0.0, 0.0, 0.4, 0),
 ]
 
+def log_stab_callback(timestamp, data, logconf):
+    print('[%d][%s]: %s' % (timestamp, logconf.name, data))
+    logging.info(data)
+
+# def simple_log_async(scf, logconf):
+    # cf = scf.cf
+    # cf.log.add_config(logconf)
+    # logconf.data_received_cb.add_callback(log_stab_callback)
+    # logconf.start()
+    # run_sequence(scf, sequence)
+
+    # # time.sleep(5)
+    # logconf.stop()
 
 def wait_for_position_estimator(scf):
     print('Waiting for estimator to find position...')
@@ -145,7 +161,31 @@ def run_sequence(scf, sequence):
 if __name__ == '__main__':
     cflib.crtp.init_drivers()
 
+    logconf = LogConfig(name='gyro', period_in_ms=10)
+    logconf.add_variable('ranging.distance0', 'float')
+    logconf.add_variable('ranging.distance2', 'float')
+    logconf.add_variable('ranging.distance3', 'float')
+    logconf.add_variable('ranging.distance5', 'float')
+    logconf.add_variable('gyro.x', 'FP16')
+    logconf.add_variable('gyro.y', 'FP16')
+    logconf.add_variable('gyro.z', 'FP16')
+    
+
+    
+    # lg_stab.add_variable('stabilizer.roll', 'float')
+    # lg_stab.add_variable('stabilizer.pitch', 'float')
+    # lg_stab.add_variable('stabilizer.yaw', 'float')
+
     with SyncCrazyflie(uri, cf=Crazyflie(rw_cache='./cache')) as scf:
         reset_estimator(scf)
         # start_position_printing(scf)
+        # run_sequence(scf, sequence)
+        # simple_log_async(scf, lg_stab)
+        cf = scf.cf
+        cf.log.add_config(logconf)
+        logconf.data_received_cb.add_callback(log_stab_callback)
+        logconf.start()
         run_sequence(scf, sequence)
+
+        # time.sleep(5)
+        logconf.stop()
