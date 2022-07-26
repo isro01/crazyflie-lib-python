@@ -41,21 +41,21 @@ from cflib.crazyflie.syncLogger import SyncLogger
 from cflib.utils import uri_helper
 
 # URI to the Crazyflie to connect to
-uri = uri_helper.uri_from_env(default='radio://0/100/2M/E7E7E7E7E7')
+uri = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E7E7')
 # logging.basicConfig(level=logging.ERROR)
-logging.basicConfig(filename="test_range_data.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
+logging.basicConfig(filename="case2_2_drone2.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
 
 # Change the sequence according to your setup
 #             x    y    z  YAW
 sequence = [
-    (0.0, 0.0, 0.4, 0),
-    (0.0, 0.0, 0.6, 0),
-    # (0.5, -0.5, 1.2, 0),
-    # (0.5, 0.5, 1.2, 0),
+    (0, -0.6, 0.5, 0),
+    (0.6, -0.6, 0.5, 0),
+    (0.6, 0.6, 0.5, 0),
+    (0, 0.6, 0.5, 0),
     # (-0.5, 0.5, 1.2, 0),
     # (-0.5, -0.5, 1.2, 0),
     # (0.0, 0.0, 1.2, 0),
-    (0.0, 0.0, 0.4, 0),
+    (0, -0.6, 0.5, 0),
 ]
 
 def log_stab_callback(timestamp, data, logconf):
@@ -161,14 +161,18 @@ def run_sequence(scf, sequence):
 if __name__ == '__main__':
     cflib.crtp.init_drivers()
 
-    logconf = LogConfig(name='gyro', period_in_ms=10)
+    logconf = LogConfig(name='ranging', period_in_ms=10)
     logconf.add_variable('ranging.distance0', 'float')
+    logconf.add_variable('ranging.distance1', 'float')
     logconf.add_variable('ranging.distance2', 'float')
     logconf.add_variable('ranging.distance3', 'float')
-    logconf.add_variable('ranging.distance5', 'float')
-    logconf.add_variable('gyro.x', 'FP16')
-    logconf.add_variable('gyro.y', 'FP16')
-    logconf.add_variable('gyro.z', 'FP16')
+    logconf.add_variable('ranging.distance4', 'FP16')
+    logconf.add_variable('ranging.distance5', 'FP16')
+    logconf.add_variable('ranging.distance6', 'FP16')
+    logconf.add_variable('ranging.distance7', 'FP16')
+    # logconf.add_variable('gyro.x', 'FP16')
+    # logconf.add_variable('gyro.y', 'FP16')
+    # logconf.add_variable('gyro.z', 'FP16')
     
 
     
