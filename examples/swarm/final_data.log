@@ -1,0 +1,26 @@
+2022-07-26 09:05:42,476 Callback->Connection initialized[radio://0/80/2M/E7E7E7E7E7]
+2022-07-26 09:05:42,477 Callback->Connection initialized[radio://0/100/2M/E7E7E7E7E7]
+2022-07-26 09:05:44,911 We are connected[radio://0/80/2M/E7E7E7E7E7], request connection setup
+2022-07-26 09:05:44,913 We are connected[radio://0/100/2M/E7E7E7E7E7], request connection setup
+2022-07-26 09:05:44,928 Callback->Connected to [radio://0/80/2M/E7E7E7E7E7]
+2022-07-26 09:05:44,950 Callback->Connected to [radio://0/100/2M/E7E7E7E7E7]
+2022-07-26 09:05:44,992 Protocol  version: 5
+2022-07-26 09:05:45,015 Protocol  version: 5
+2022-07-26 09:05:45,075 TOC for port [5] found in cache
+2022-07-26 09:05:45,075 Log TOC finished updating
+2022-07-26 09:05:45,104 TOC for port [5] found in cache
+2022-07-26 09:05:45,104 Log TOC finished updating
+2022-07-26 09:05:45,123 7 memories found
+2022-07-26 09:05:45,136 7 memories found
+2022-07-26 09:05:45,503 Memories finished updating
+2022-07-26 09:05:45,515 Memories finished updating
+2022-07-26 09:05:45,541 TOC for port [2] found in cache
+2022-07-26 09:05:45,556 TOC for port [2] found in cache
+2022-07-26 09:05:48,796 Param TOC finished updating
+2022-07-26 09:05:48,796 Callback->Connection setup finished [radio://0/80/2M/E7E7E7E7E7]
+2022-07-26 09:05:48,826 Param TOC finished updating
+2022-07-26 09:05:48,826 Callback->Connection setup finished [radio://0/100/2M/E7E7E7E7E7]
+2022-07-26 09:05:56,854 Closing link
+2022-07-26 09:05:56,859 Callback->Disconnected from [radio://0/80/2M/E7E7E7E7E7]
+2022-07-26 09:05:56,859 Closing link
+2022-07-26 09:05:56,863 Callback->Disconnected from [radio://0/100/2M/E7E7E7E7E7]

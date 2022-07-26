@@ -46,10 +46,22 @@ y0  7               1
 
 """
 import time
+import logging
 
 import cflib.crtp
 from cflib.crazyflie.swarm import CachedCfFactory
 from cflib.crazyflie.swarm import Swarm
+from cflib.crazyflie.swarm import LogConfig
+
+
+from cflib.crazyflie import Crazyflie
+from cflib.crazyflie.log import LogConfig
+from cflib.utils import uri_helper
+from cflib.crazyflie.swarm import SyncCrazyflie
+from cflib.crazyflie.swarm import SyncLogger
+
+logging.basicConfig(filename="final_data.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
+
 
 # Change uris and sequences according to your setup
 URI1 = 'radio://0/80/2M/E7E7E7E7E7'
@@ -71,8 +83,8 @@ x0 = 0
 x1 = 0
 x2 = -0.7
 
-y0 = 0
-y1 = -0.4
+y0 = 0.6
+y1 = -0.6
 y2 = 0.4
 y3 = 1.0
 
@@ -164,6 +176,9 @@ uris = {
     # URI10
 }
 
+def log_stab_callback(timestamp, data, logconf):
+    print('[%d][%s]: %s' % (timestamp, logconf.name, data))
+    # logging.info(data)
 
 def wait_for_param_download(scf):
     while not scf.cf.param.is_updated:
@@ -214,7 +229,7 @@ def run_sequence(scf, sequence):
                 cf.commander.send_position_setpoint(position[0],
                                                     position[1],
                                                     position[2], 0)
-                time.sleep(0.1)
+                time.sleep(1)
         land(cf, sequence[-1])
     except Exception as e:
         print(e)
@@ -223,6 +238,15 @@ def run_sequence(scf, sequence):
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.DEBUG)
     cflib.crtp.init_drivers()
+
+    logconf = LogConfig(name='gyro', period_in_ms=10)
+    logconf.add_variable('ranging.distance0', 'float')
+    # logconf.add_variable('ranging.distance2', 'float')
+    # logconf.add_variable('ranging.distance3', 'float')
+    # logconf.add_variable('ranging.distance5', 'float')
+    # logconf.add_variable('gyro.x', 'FP16')
+    # logconf.add_variable('gyro.y', 'FP16')
+    # logconf.add_variable('gyro.z', 'FP16')
 
     factory = CachedCfFactory(rw_cache='./cache')
     with Swarm(uris, factory=factory) as swarm:
@@ -239,4 +263,10 @@ if __name__ == '__main__':
         print('Waiting for parameters to be downloaded...')
         swarm.parallel(wait_for_param_download)
 
+        cf = swarm._cfs['radio://0/80/2M/E7E7E7E7E7']
+        cf.log.add_config(logconf)
+        logconf.data_received_cb.add_callback(log_stab_callback)
+        logconf.start()
         swarm.parallel(run_sequence, args_dict=seq_args)
+
+        logconf.stop()

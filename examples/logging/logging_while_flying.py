@@ -43,19 +43,16 @@ from cflib.utils import uri_helper
 # URI to the Crazyflie to connect to
 uri = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E7E7')
 # logging.basicConfig(level=logging.ERROR)
-logging.basicConfig(filename="case2_2_drone2.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
+logging.basicConfig(filename="case1_3_drone2_gyro.log", format='%(asctime)s %(message)s', filemode='w', level=logging.INFO)
 
 # Change the sequence according to your setup
 #             x    y    z  YAW
 sequence = [
-    (0, -0.6, 0.5, 0),
-    (0.6, -0.6, 0.5, 0),
-    (0.6, 0.6, 0.5, 0),
-    (0, 0.6, 0.5, 0),
-    # (-0.5, 0.5, 1.2, 0),
-    # (-0.5, -0.5, 1.2, 0),
-    # (0.0, 0.0, 1.2, 0),
-    (0, -0.6, 0.5, 0),
+    (-0.3, 0.6, 0.3, 0),
+    (-0.3, 0.6, 0.3, 0),
+    (-0.3, 0.6, 0.3, 0),
+    (-0.3, 0.6, 0.3, 0),
+    (-0.3, 0.6, 0.3, 0),
 ]
 
 def log_stab_callback(timestamp, data, logconf):
@@ -162,17 +159,17 @@ if __name__ == '__main__':
     cflib.crtp.init_drivers()
 
     logconf = LogConfig(name='ranging', period_in_ms=10)
-    logconf.add_variable('ranging.distance0', 'float')
-    logconf.add_variable('ranging.distance1', 'float')
-    logconf.add_variable('ranging.distance2', 'float')
-    logconf.add_variable('ranging.distance3', 'float')
+    logconf.add_variable('ranging.distance0', 'FP16')
+    logconf.add_variable('ranging.distance1', 'FP16')
+    logconf.add_variable('ranging.distance2', 'FP16')
+    logconf.add_variable('ranging.distance3', 'FP16')
     logconf.add_variable('ranging.distance4', 'FP16')
     logconf.add_variable('ranging.distance5', 'FP16')
     logconf.add_variable('ranging.distance6', 'FP16')
     logconf.add_variable('ranging.distance7', 'FP16')
-    # logconf.add_variable('gyro.x', 'FP16')
-    # logconf.add_variable('gyro.y', 'FP16')
-    # logconf.add_variable('gyro.z', 'FP16')
+    logconf.add_variable('gyro.x', 'FP16')
+    logconf.add_variable('gyro.y', 'FP16')
+    logconf.add_variable('gyro.z', 'FP16')
     
 
     
